@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { Product } from '../types/Product';
+import { maxValue } from '../utils/generateId';
 
 export function createRandomProduct(): Product {
     const developers = []
@@ -11,7 +12,7 @@ export function createRandomProduct(): Product {
     const startDate = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`
     
     return {
-        productId: faker.number.int(),
+        productId: faker.number.int({min: 1, max: maxValue}),
         productName: faker.commerce.productName(),
         productOwnerName: faker.person.fullName(),
         Developers: developers,

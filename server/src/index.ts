@@ -5,7 +5,7 @@ import { NotFoundHandler } from './middleware/notFound';
 import ProductRouter from './routes/product'
 import { createProductArray } from './data/dummy';
 
-export const products = createProductArray(5);
+export const products = createProductArray(10);
 export const app = express();
 app.use(json());
 

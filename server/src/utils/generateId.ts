@@ -1,6 +1,6 @@
 import { products } from "..";
 
-const maxValue = 1000000
+export const maxValue = 10000
 
 const randomBigInt = () => Math.floor(Math.random() * maxValue);
  
