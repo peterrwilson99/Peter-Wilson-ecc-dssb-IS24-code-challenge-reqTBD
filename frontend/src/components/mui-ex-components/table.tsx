@@ -161,11 +161,12 @@ export default function MuiExampleTable(props: MuiExampleTableProps) {
                         <TableRow key={index}>
                             {row.map((cell, index) =>
                                 index === 0 ? (
-                                    <TableCell component="th" scope="row">
+                                    <TableCell key={index} component="th" scope="row">
                                         {cell.value}
                                     </TableCell>
                                 ) : (
                                     <TableCell
+                                        key={index}
                                         align="right"
                                         sx={{ width: 100 }}
                                     >
