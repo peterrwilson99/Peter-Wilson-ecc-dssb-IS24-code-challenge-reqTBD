@@ -38,11 +38,11 @@ jobs:
         node-version: '18.x'
 
     - name: Install Dependencies
-      working-directory: ./backend
+      working-directory: ./server
       run: npm ci
 
     - name: Build Backend
-      working-directory: ./backend
+      working-directory: ./server
       run: npm run build
 
   build-frontend:
