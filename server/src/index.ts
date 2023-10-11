@@ -5,7 +5,12 @@ import { NotFoundHandler } from './middleware/notFound';
 import ProductRouter from './routes/product'
 import { createProductArray } from './data/dummy';
 
-export const products = createProductArray(10);
+export const products = createProductArray(30);
+
+products.sort((a,b) => {
+  return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+});
+
 export const app = express();
 app.use(json());
 

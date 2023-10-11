@@ -12,18 +12,31 @@ import {
     TableHead,
     TableRow,
     TableCell,
+    InputAdornment,
     TableFooter,
     TableBody,
     TablePagination,
+    List,
+    TextField,
+    ListItem,
+    ListItemText,
+    ListItemAvatar,
+    Avatar,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import SearchIcon from '@mui/icons-material/Search';
 
 const columns = [
-    'Product Number',
     'Product Name',
-    'Product Owner',
+    'Number',
+    'Owner',
     'Developers',
     'Scrum Master',
     'Start Date',
@@ -31,6 +44,14 @@ const columns = [
     'Location',
     'Edit'
 ]
+
+const searchCategoriesMap = {
+    'productName': 'Product Name',
+    'productId': 'Number',
+    'productOwnerName': 'Owner',
+    'Developers': 'Developers',
+    'scrumMasterName': 'Scrum Master',
+}
 
 interface Product {
     productId: number;
@@ -45,16 +66,14 @@ interface Product {
 }
 
 function ProductTable() {
+    const [productsRaw, setProductsRaw] = useState<Product[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
-    const [rows, setRows] = useState<Cell[][]>([]);
+    const [search, setSearch] = useState<string>('');
+    const [searchCategory, setSearchCategory] = useState<string>(Object.keys(searchCategoriesMap)[0]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<boolean>(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
@@ -71,11 +90,12 @@ function ProductTable() {
     };
 
     const getProducts = async () => {
+        setLoading(true);
         try{
             const response = await fetch('/api');
             const data = await response.json();
             if(response.status === 200){
-                setProducts(data);
+                setProductsRaw(data);
                 setError(false);
             }else{
                 console.error(data);
@@ -85,44 +105,37 @@ function ProductTable() {
             console.error(err);
             setError(true);
         }
+        setLoading(false);
+    }
+
+    const handleSearch = () => {
+        if(search === ''){
+            setProducts(productsRaw);
+        }else{
+            setProducts(productsRaw.filter((product) => {
+                if(searchCategory === 'Developers'){
+                    return product[searchCategory].some((developer: string) => developer.toLowerCase().includes(search.toLowerCase()));
+                }else{
+                    return String(product[searchCategory]).toLowerCase().includes(search.toLowerCase());
+                }
+            }));
+        }
     }
 
     useEffect(() => {
         getProducts();
     }, []);
-
+    
+    useEffect(() => {
+        setPage(0);
+        handleSearch();
+    }, [search, searchCategory]);
+    
     useEffect(() => {
         setLoading(true);
-        handleProducts();
+        setProducts(productsRaw);
         setLoading(false);
-    }, [products]);
-
-    const handleProducts = () => {
-        const rowsTemp = [];
-        for(const product of products){
-            const rowTemp: Cell[] = []
-            for (const property in product) {
-                let val = product[property];
-                if(property === 'location'){
-                    val = <IconButton href={val} target="_blank" size="large"><GitHubIcon /></IconButton>
-                }else if(property === 'Developers'){
-                    val = val.join(', ');
-                }
-                rowTemp.push({
-                    "key": property,
-                    "value": val
-                });
-            }
-            rowTemp.push({
-                "key": "Edit",
-                "value": <Tooltip title="Edit Product">
-                    <IconButton href={"/edit/".concat(String(product.productId))} size="large"><EditIcon /></IconButton>
-                </Tooltip>
-            });
-            rowsTemp.push(rowTemp);
-        }
-        setRows(rowsTemp);
-    }
+    }, [productsRaw])
 
     return (
         loading ?
@@ -138,18 +151,62 @@ function ProductTable() {
                     </Button>
                 </Paper>
                 :
-                <Box sx={{ width: "100%" }}>
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 500 }} >
+                <Paper elevation={7} sx={{ width: "100%", borderRadius: 5, paddingY: '2rem', paddingX: '10px' }}>
+                    <Box sx={{display: 'flex', flexDirection: "row", justifyContent: 'space-between', width: '100%', paddingX: '1.5rem', height: '100%'}}>
+                        <Box sx={{display: 'flex', flexDirection: "column", justifyContent: 'space-between', width: '100%', paddingX: '1.5rem', minHeight: 120}}>
+                            <Typography variant="h5" component="h5" gutterBottom >
+                                View Products
+                            </Typography>
+                            <Box >
+                                <TextField
+                                    label="Search"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SearchIcon />
+                                        </InputAdornment>
+                                    ),
+                                    }}
+                                    sx={{maxWidth: '180px'}}
+                                    variant="standard"
+                                />
+                                <FormControl variant="standard" sx={{minWidth: 120}}>
+                                    <InputLabel id="search-category-label">Category</InputLabel>
+                                    <Select
+                                        labelId="search-category-label"
+                                        id="search-category"
+                                        value={searchCategory}
+                                        variant="standard"
+                                        onChange={(e) => setSearchCategory(e.target.value as string)}
+                                    >
+                                        {Object.keys(searchCategoriesMap).map((category, index) => (
+                                            <MenuItem key={index} value={category}>
+                                                {searchCategoriesMap[category as keyof typeof searchCategoriesMap]}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                        </Box>
+                        <Box sx={{display: 'flex', flexDirection: "column", justifyContent: 'space-between', width: '100%', paddingX: '1.5rem', height: '100%', textAlign: 'right', minHeight: 120}}>
+                            <Box >
+                                <Button variant="outlined" href="/add" endIcon={<AddIcon />}>
+                                    Add Product
+                                </Button>
+                            </Box>
+                            <Typography variant="subtitle2" component="p" gutterBottom>
+                                {products.length} Products
+                            </Typography>
+                           
+                        
+                        </Box>
+                    </Box>
+                    
+                    <TableContainer sx={{marginY: '1rem'}}>
+                        <Table stickyHeader>
                             <TableHead>
-                                <Box sx={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', width: '100%'}}>
-                                    <Typography variant="h5" component="h5" gutterBottom>
-                                        Product List
-                                    </Typography>
-                                    <Button variant="contained" sx={{marginTop: '1rem'}} onClick={() => window.location.href = '/add'}>
-                                        Add Product
-                                    </Button>
-                                </Box>
                                 <TableRow>
                                     {columns.map((header, index) => (
                                         index === 0 ?
@@ -161,58 +218,72 @@ function ProductTable() {
                             </TableHead>
                             <TableBody>
                                 {(rowsPerPage > 0
-                                    ? rows.slice(
+                                    ? products.slice(
                                         page * rowsPerPage,
                                         page * rowsPerPage + rowsPerPage
                                     )
-                                    : rows
-                                ).map((row, index) => (
+                                    : products
+                                ).map((product, index) => (
                                     <TableRow key={index}>
-                                        {row.map((cell, index) =>
-                                            index === 0 ? (
-                                                <TableCell key={index} component="th" scope="row">
-                                                    {cell.value}
-                                                </TableCell>
-                                            ) : (
-                                                <TableCell
-                                                    key={index}
-                                                    align="right"
-                                                    sx={{ width: 100 }}
-                                                >
-                                                    {cell.value}
-                                                </TableCell>
-                                            )
-                                        )}
+                                        <TableCell>
+                                            <Typography variant="body1">{product.productName}</Typography>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            {product.productId}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            {product.productOwnerName}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <List dense={true} sx={{textAlign: 'right'}}>
+                                                {product.Developers.map((developer, index) => (
+                                                    <ListItem key={index} sx={{textAlign: 'right', p: 0}}>
+                                                        <ListItemText primary={developer} />
+                                                    </ListItem>
+                                                ))}
+                                            </List>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            {product.scrumMasterName}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            {product.startDate}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            {product.methodology}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <Tooltip title={product.location && product.location !== '' ? "View GitHub": "No Repository Found"}>
+                                                <IconButton href={product.location ?? "#"} disabled={!product.location || product.location === ''} target="_blank" size="large" sx={{textAlign: 'right', p: 0,}}>
+                                                    <GitHubIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <Button href={"/edit/".concat(String(product.productId))} variant="outlined" color="secondary" endIcon={<EditIcon />}>
+                                                Edit
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
-                                {emptyRows > 0 && (
-                                    <TableRow style={{ height: 53 * emptyRows }}>
-                                        <TableCell colSpan={6} />
-                                    </TableRow>
-                                )}
                             </TableBody>
-                            <TableFooter >
-                                <TableRow >
-                                    <TablePagination
-                                        rowsPerPageOptions={[
-                                            5,
-                                            10,
-                                            25,
-                                            { label: "All", value: -1 },
-                                        ]}
-                                        colSpan={3}
-                                        count={rows.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        onPageChange={handleChangePage}
-                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                        sx={{ width: "100%" }}
-                                    />
-                                </TableRow>
-                            </TableFooter>
                         </Table>
                     </TableContainer>
-                </Box>
+                    <TablePagination
+                        rowsPerPageOptions={[
+                            5,
+                            10,
+                            25,
+                            { label: "All", value: -1 },
+                        ]}
+                        component="div"
+                        count={products.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
     );
 }
 

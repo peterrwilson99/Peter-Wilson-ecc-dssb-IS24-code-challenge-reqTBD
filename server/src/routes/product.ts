@@ -9,15 +9,6 @@ router.get('/', (req, res) => {
     res.status(200).json(products);
 });
 
-router.get('/:productId', (req, res) => {
-    const { productId } = req.params;
-    const product = products.find(product => product.productId === Number(productId));
-    if (!product) {
-        return res.status(404).json({ message: `Product with ID ${productId} not found` });
-    }
-    res.status(200).json(product);
-});
-
 router.post('/', (req, res) => {
     const body: CreateProductProps = req.body;
 
@@ -53,7 +44,20 @@ router.post('/', (req, res) => {
     
 
     products.push(newProduct);
+    products.sort((a,b) => {
+        return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+    });
+
     res.status(201).json(newProduct);
+});
+
+router.get('/:productId', (req, res) => {
+    const { productId } = req.params;
+    const product = products.find(product => product.productId === Number(productId));
+    if (!product) {
+        return res.status(404).json({ message: `Product with ID ${productId} not found` });
+    }
+    res.status(200).json(product);
 });
 
 router.put('/:productId', (req, res) => {
@@ -94,6 +98,10 @@ router.put('/:productId', (req, res) => {
         ...products[index],
         ...body
     };
+
+    products.sort((a,b) => {
+        return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+    });
 
     res.status(200).json(products[index]);
 });
