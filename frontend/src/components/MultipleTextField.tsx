@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 export interface MultipleTextFieldProps {
     value: string[];
@@ -29,7 +29,9 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ value, prompt, variant,
     }
 
     const handleRemoveField = (index: number) => {
-        setValues(values.filter((value, idx) => idx !== index));
+        const newValues = values.filter((value, idx) => idx !== index)
+        setValues(newValues);
+        onChange(newValues);
     }
 
     const handleChange = (index: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

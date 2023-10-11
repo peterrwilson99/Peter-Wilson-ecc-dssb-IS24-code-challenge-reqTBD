@@ -6,8 +6,10 @@ import {
     CircularProgress,
     Typography,
     Button,
+    Tooltip,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import EditIcon from '@mui/icons-material/Edit';
 import MuiExampleTable, { Cell } from "./mui-ex-components/table";
 import GitHubIcon from '@mui/icons-material/GitHub';
 
@@ -19,7 +21,8 @@ const columns = [
     'Scrum Master',
     'Start Date',
     'Methodology',
-    'Location'
+    'Location',
+    'Edit'
 ]
 
 interface Product {
@@ -96,6 +99,12 @@ function ProductTable() {
                     "value": val
                 });
             }
+            rowTemp.push({
+                "key": "Edit",
+                "value": <Tooltip title="Edit Product">
+                    <IconButton href={"/edit/".concat(String(product.productId))} size="large"><EditIcon /></IconButton>
+                </Tooltip>
+            });
             rowsTemp.push(rowTemp);
         }
         setRows(rowsTemp);
