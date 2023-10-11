@@ -2,17 +2,14 @@
 import {
     Box,
     Paper,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
     IconButton,
+    CircularProgress,
+    Typography,
+    Button,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import MuiExampleTable, { Cell } from "./mui-ex-components/table";
 import GitHubIcon from '@mui/icons-material/GitHub';
-
-const ProductsForced = [{"productId":9873,"productName":"Bespoke Frozen Chair","productOwnerName":"Mrs. Dianne Goodwin","Developers":["Tina Goodwin PhD","Mattie Smitham","Holly Cummings","Penny Mayer","Nellie Quitzon"],"scrumMasterName":"Theodore Koelpin","startDate":"2023/1/5","methodology":"Agile","location":"https://github.com/bcgov"},{"productId":8191,"productName":"Ergonomic Soft Pizza","productOwnerName":"Dr. Eva Bednar","Developers":["Derrick Zieme","Janie Leannon V","Guadalupe Haag"],"scrumMasterName":"Gina Yost","startDate":"2023/1/28","methodology":"Waterfall","location":"https://github.com/bcgov"},{"productId":1305,"productName":"Licensed Plastic Cheese","productOwnerName":"Kenny Bosco III","Developers":["Ruby Kuhlman","Ms. Wanda Dicki","Gladys King"],"scrumMasterName":"Kerry Donnelly","startDate":"2022/11/27","methodology":"Waterfall","location":"https://github.com/bcgov"},{"productId":855,"productName":"Gorgeous Rubber Sausages","productOwnerName":"Dr. Ben Koss-Hackett","Developers":["Randolph Brakus"],"scrumMasterName":"Roy Gleichner","startDate":"2021/8/20","methodology":"Waterfall","location":"https://github.com/bcgov"},{"productId":275,"productName":"Licensed Soft Hat","productOwnerName":"Betty Reilly","Developers":["Dr. Shelia Block","Angelina Gutmann Sr.","Jaime Schimmel","Marlene Nicolas","Russell Collins"],"scrumMasterName":"Donna Pacocha","startDate":"2019/1/14","methodology":"Waterfall","location":"https://github.com/bcgov"},{"productId":5746,"productName":"Handmade Soft Car","productOwnerName":"Willis Aufderhar","Developers":["Frederick Grimes","Hugo Hermiston","Lucas Davis III"],"scrumMasterName":"Blanche Larson","startDate":"2018/3/28","methodology":"Waterfall","location":"https://github.com/bcgov"},{"productId":1182,"productName":"Generic Fresh Shoes","productOwnerName":"Luther Runolfsson","Developers":["Mrs. Essie Lubowitz"],"scrumMasterName":"Dennis McDermott","startDate":"2017/8/5","methodology":"Agile","location":"https://github.com/bcgov"},{"productId":5074,"productName":"Awesome Steel Keyboard","productOwnerName":"Jerome Rolfson","Developers":["Claire Klein-Aufderhar","Naomi Mayer","Angela Hermann"],"scrumMasterName":"Jill Roberts","startDate":"2014/3/19","methodology":"Waterfall","location":"https://github.com/bcgov"},{"productId":1095,"productName":"Sleek Granite Chair","productOwnerName":"Kelly Bergnaum","Developers":["Muriel Schuppe","Ms. Sophia Schowalter-Tromp"],"scrumMasterName":"Michele Kuhic","startDate":"2019/0/31","methodology":"Waterfall","location":"https://github.com/bcgov"},{"productId":9397,"productName":"Recycled Granite Chicken","productOwnerName":"Armando Little","Developers":["Jermaine Kihn","Dexter Kuphal III","Elbert Mayer","Wayne Tremblay"],"scrumMasterName":"Mack Schaefer","startDate":"2015/0/5","methodology":"Agile","location":"https://github.com/bcgov"}]
 
 const columns = [
     'Product Number',
@@ -37,9 +34,24 @@ interface Product {
     [key: string]: any;
 }
 
+const TableHeader = () => {
+    return(
+        <Box sx={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', width: '100%'}}>
+            <Typography variant="h5" component="h5" gutterBottom>
+                Product List
+            </Typography>
+            <Button variant="contained" sx={{marginTop: '1rem'}} onClick={() => window.location.href = '/add'}>
+                Add Product
+            </Button>
+        </Box>
+    )
+}
+
 function ProductTable() {
-    const [products, setProducts] = useState<Product[]>(ProductsForced as Product[]);
+    const [products, setProducts] = useState<Product[]>([]);
     const [rows, setRows] = useState<Cell[][]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<boolean>(false);
 
     const getProducts = async () => {
         try{
@@ -47,11 +59,14 @@ function ProductTable() {
             const data = await response.json();
             if(response.status === 200){
                 setProducts(data);
+                setError(false);
             }else{
                 console.error(data);
+                setError(true);
             }
         }catch(err){
             console.error(err);
+            setError(true);
         }
     }
 
@@ -60,7 +75,9 @@ function ProductTable() {
     }, []);
 
     useEffect(() => {
+        setLoading(true);
         handleProducts();
+        setLoading(false);
     }, [products]);
 
     const handleProducts = () => {
@@ -85,12 +102,22 @@ function ProductTable() {
     }
 
     return (
-        rows.length > 0 ?
-        <Box sx={{ width: "100%" }}>
-            <MuiExampleTable rows={rows} headers={columns} />
-        </Box>
-        :
-        <></>
+        loading ?
+            <CircularProgress />
+            :
+            error ? 
+                <Paper elevation={7} sx={{borderRadius: 5, textAlign: 'center', padding: '2rem'}}>
+                    <Typography variant="h5" component="h5" gutterBottom>
+                        Something went wrong...
+                    </Typography>
+                    <Button variant="contained" sx={{marginTop: '1rem'}} onClick={() => getProducts()}>
+                        Try Again
+                    </Button>
+                </Paper>
+                :
+                <Box sx={{ width: "100%" }}>
+                    <MuiExampleTable rows={rows} columns={columns} header={<TableHeader />} />
+                </Box>
     );
 }
 
