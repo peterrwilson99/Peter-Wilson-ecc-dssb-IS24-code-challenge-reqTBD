@@ -40,10 +40,37 @@ def fetch_github_repositories(username):
         print(repos_response.json())
         return None
 
-if __name__ == "__main__":
+def clean_github_repositories(repo):
+    # correct product name
+    repo['productName'] = repo['productName'].replace('-', ' ').replace('_', ' ').replace('.', ' ').title()
+    
+    # Correct developers
+    developers = []
+    for developer in repo['Developers']:
+        if 'bot' in developer.lower():
+            continue
+        developers.append(developer)
+    
+    if len(developers) == 0:
+        developers.append('bcgovjz')
+    repo['Developers'] = developers
+
+    # Correct start date formatting
+    repo['startDate'] = repo['startDate'].split('T')[0].replace('-', '/')
+
+    return repo
+
+def main():
     username = 'bcgov'
     repos_info = fetch_github_repositories(username)
 
+    for index, repo in enumerate(repos_info):
+        repos_info[index] = clean_github_repositories(repo)
+
     if repos_info is not None:
-        with open('govRepos.json', 'w') as json_file:
+        with open('products.json', 'w') as json_file:
             json.dump(repos_info, json_file)
+
+
+if __name__ == "__main__":
+    main()

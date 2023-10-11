@@ -1,33 +1,36 @@
 import { faker } from '@faker-js/faker';
 import { Product } from '../types/Product';
 import { maxValue } from '../utils/generateId';
+import { govProjects } from './products';
 
-export function createRandomProduct(): Product {
-    const developers = []
-    const numDevelopers = faker.number.int({ min: 1, max: 5 });
-    for (let i = 0; i < numDevelopers; i++) {
-        developers.push(faker.person.fullName());
-    }
-    const date = faker.date.past({ years: 10 })
-    const startDate = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`
+interface BaseProject { 
+    productName: string;
+    location: string;
+    Developers: string[];
+    startDate: string;
+}
+
+export function createRandomProduct(project: BaseProject): Product {
     
     return {
         productId: faker.number.int({min: 1, max: maxValue}),
-        productName: faker.commerce.productName(),
+        productName: project.productName,
         productOwnerName: faker.person.fullName(),
-        Developers: developers,
+        Developers: project.Developers,
         scrumMasterName: faker.person.fullName(),
-        startDate,
+        startDate: project.startDate,
         methodology: faker.helpers.arrayElement(['Agile', 'Waterfall']),
-        location: "https://github.com/bcgov"
+        location: project.location
     };
 }
 
 export function createProductArray(products?: number): Product[] {
     const productArray: Product[] = [];
-    const numProducts = products || faker.number.int({ min: 1, max: 10 });
-    for (let i = 0; i < numProducts; i++) {
-        productArray.push(createRandomProduct());
+    
+    const numProducts = Math.min(products || 10, govProjects.length, 40);
+    const baseProjects: BaseProject[] = faker.helpers.arrayElements(govProjects, numProducts);
+    for (const project of baseProjects) {
+        productArray.push(createRandomProduct(project));
     }
     return productArray;
 }
