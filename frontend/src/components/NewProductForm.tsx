@@ -18,7 +18,7 @@ function NewProductForm() {
         try{
             const body = {
                 productName: productName,
-                // productOwnerName: productOwner,
+                productOwnerName: productOwner,
                 Developers: developers,
                 scrumMasterName: scrumMaster,
                 startDate: startDate.format("YYYY/MM/DD"),
