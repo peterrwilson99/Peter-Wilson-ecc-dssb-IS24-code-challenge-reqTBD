@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import NewProductForm from '../src/components/NewProductForm';
 
-export default function Home() {
+export default function AddProduct() {
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="sm">
       <Box
         sx={{
           my: 4,

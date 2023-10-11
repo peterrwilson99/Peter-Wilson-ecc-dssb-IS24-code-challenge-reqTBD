@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { use, useEffect, useState } from 'react'
 import EditProductForm, { Product } from '../../src/components/EditProductForm';
-import { CircularProgress, Container } from '@mui/material';
+import { Box, CircularProgress, Container, Typography } from '@mui/material';
 
 function EditProduct() {
     const [product, setProduct] = useState<Product | undefined>(undefined);
@@ -32,17 +32,30 @@ function EditProduct() {
     }, [productId]);
 
     return (
-        <Container>
-            {
-                product ?
-                    <EditProductForm product={product} />
-                    :
-                    error ?
-                        <div>Error</div>
+        <Container maxWidth="sm">
+            <Box
+                sx={{
+                my: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                }}
+            >
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Edit Product
+                </Typography>
+                {
+                    product ?
+                        <EditProductForm product={product} />
                         :
-                        <CircularProgress />
+                        error ?
+                            <div>Error</div>
+                            :
+                            <CircularProgress />
 
-            }
+                }
+            </Box>
         </Container>
     )
 }
