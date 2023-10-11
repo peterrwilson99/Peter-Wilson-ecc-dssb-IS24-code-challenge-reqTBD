@@ -14,7 +14,7 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import { TableHead } from "@mui/material";
+import { TableHead, Typography } from "@mui/material";
 
 interface TablePaginationActionsProps {
     count: number;
@@ -111,13 +111,14 @@ export interface Cell {
 
 interface MuiExampleTableProps {
     rows: Cell[][];
-    headers: string[];
+    columns: string[];
+    header?: React.ReactNode;
 }
 
 export default function MuiExampleTable(props: MuiExampleTableProps) {
-    const { rows, headers } = props;
+    const { rows, columns, header } = props;
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -139,10 +140,11 @@ export default function MuiExampleTable(props: MuiExampleTableProps) {
 
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+            <Table sx={{ minWidth: 500 }} >
                 <TableHead>
+                    {header ?? <></>}
                     <TableRow>
-                        {headers.map((header, index) => (
+                        {columns.map((header, index) => (
                             index === 0 ?
                                 <TableCell key={index}>{header}</TableCell>
                                 :

@@ -15,6 +15,9 @@ async function getProduct(req: NextApiRequest, res: NextApiResponse, url: string
     try{
         const response = await fetch(url);
         const data = await response.json();
+        if(!response.ok){
+            return res.status(response.status).json({message: data.message});
+        }
         return res.status(200).json(data);
     }catch(error){
         return res.status(500).json({message: error});
@@ -31,6 +34,10 @@ async function postProduct(req: NextApiRequest, res: NextApiResponse, url: strin
             body: JSON.stringify(req.body)
         });
         const data = await response.json();
+        
+        if(!response.ok){
+            return res.status(response.status).json({message: data.message});
+        }
         return res.status(200).json(data);
     }catch(error){
         return res.status(500).json({message: error});
