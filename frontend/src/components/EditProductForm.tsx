@@ -168,14 +168,14 @@ function EditProductForm(props: EditProductFormProps) {
                 sx={{marginY: "1rem"}}
                 fullWidth
             />
-            <Button variant="outlined" type="submit" sx={{margin: "1rem"}}>Save Product</Button>
+            <Button variant="outlined" type="submit" sx={{margin: "1rem"}}>Save Changes</Button>
             {
                 error ?
                     <Snackbar
                         open={error}
                         autoHideDuration={6000}
                         onClose={() => setError(false)}
-                        title="Error Posting Product"
+                        title="Error Editing Product"
                     >
                         <Alert severity="error" sx={{ width: '100%' }}>
                             Error saving product. Please try again later
