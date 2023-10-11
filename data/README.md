@@ -2,7 +2,7 @@
 
 This folder contains the `repos.py` script which was used to get dummy data to fill the product catalog with. 
 
-I included this file simply to show how I got the data, and is not necessary to be ran again as the results have already been hardcoded on the server in the `server/src/data/products.json` file.
+I included this file simply to show how I got the data, and is not necessary to be ran again as the results have already been hardcoded on the server in the `server/src/data/products.ts` file.
 
 > *Note this script throttles the GitHub API and cannot be run multiple times back to back before hitting the limit rates*
 
@@ -22,3 +22,5 @@ To run the script, navigate to the directory containing `repos.py` and execute t
 ```bash
 python3 repos.py
 ```
+
+Following completion of the script it will create the file `products.json` with the public repositories under the bcgov GitHub account.

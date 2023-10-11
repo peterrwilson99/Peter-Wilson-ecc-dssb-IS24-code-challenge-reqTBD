@@ -68,8 +68,9 @@ def main():
         repos_info[index] = clean_github_repositories(repo)
 
     if repos_info is not None:
+        print(f"Saving {len(repos_info)} repositories to products.json")
         with open('products.json', 'w') as json_file:
-            json.dump(repos_info, json_file)
+            json.dump(repos_info, json_file, indent=4)
 
 
 if __name__ == "__main__":

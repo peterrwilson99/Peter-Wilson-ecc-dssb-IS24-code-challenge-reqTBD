@@ -12,6 +12,14 @@
         "startDate": "2022/07/18"
     },
     {
+        "productName": " Github",
+        "location": "https://github.com/bcgov/.github",
+        "Developers": [
+            "bcgovjz"
+        ],
+        "startDate": "2023/02/10"
+    },
+    {
         "productName": "Access To Technology",
         "location": "https://github.com/bcgov/access-to-technology",
         "Developers": [
