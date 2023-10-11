@@ -50,6 +50,7 @@ router.post('/', (req, res) => {
     if (newProduct.Developers.length > 5) {
         return res.status(400).json({ message: 'Product cannot have more than 5 developers' });
     }
+    console.log("Product added")
 
     products.push(newProduct);
     res.status(201).json(newProduct);
