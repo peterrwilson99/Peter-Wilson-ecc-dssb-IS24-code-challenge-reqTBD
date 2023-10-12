@@ -23,6 +23,14 @@ The app will run on 3000
 
 Documentation for the API can be found at http://localhost:3000/api/api-docs
 
+## Test Suite
+
+Testing is done with jest and can be ran with.
+
+```bash
+npm run test
+```
+
 ## Routes
 - `GET /health`
     - Healthcheck of server endpoint

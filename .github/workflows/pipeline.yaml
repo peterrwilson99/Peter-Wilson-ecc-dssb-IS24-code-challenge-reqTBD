@@ -1,4 +1,4 @@
-name: Lint and Build
+name: Lint, Test and Build
 
 on:
     pull_request:
@@ -26,6 +26,25 @@ jobs:
       working-directory: ./frontend
       run: npm run lint
 
+  test-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.x'
+
+    - name: Install Dependencies
+      working-directory: ./server
+      run: npm ci
+
+    - name: Test Backend
+      working-directory: ./server
+      run: npm run test
+  
   build-backend:
     runs-on: ubuntu-latest
 
