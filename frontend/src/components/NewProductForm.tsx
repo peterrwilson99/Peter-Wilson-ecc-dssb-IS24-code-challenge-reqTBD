@@ -14,6 +14,7 @@ function NewProductForm() {
     const [startDate, setStartDate] = useState(dayjs());
     const [methodology, setMethodology] = useState("Agile");
 
+    // POST request to create product
     const postProduct = async () => {
         try{
             const body = {
@@ -45,7 +46,7 @@ function NewProductForm() {
         }
     }
 
-
+    // Handle form submission
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         postProduct();

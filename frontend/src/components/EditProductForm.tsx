@@ -32,6 +32,7 @@ function EditProductForm(props: EditProductFormProps) {
     const [location, setLocation] = useState(product.location ?? "");
     const [changesMade, setChangesMade] = useState(false)
 
+    // PUT request to update product
     const putProduct = async () => {
         try{
             const body = {
@@ -70,6 +71,7 @@ function EditProductForm(props: EditProductFormProps) {
         putProduct();
     }
 
+    // check to see if any changes have been made to the form
     const checkChangesMade = () => {
         if(productName !== product.productName){
             setChangesMade(true);
@@ -109,6 +111,7 @@ function EditProductForm(props: EditProductFormProps) {
         setChangesMade(false);
     }
 
+    // check for changes made to the form
     useEffect(() => {
         checkChangesMade();
     }, [productName, productOwner, developers, scrumMaster, startDate, methodology, location])
@@ -225,7 +228,7 @@ function EditProductForm(props: EditProductFormProps) {
                         title="Error Editing Product"
                     >
                         <Alert severity="error" sx={{ width: '100%' }}>
-                            Error saving product. Please try again later
+                            Error saving product. Please try again.
                         </Alert>
                     </Snackbar>
                     :

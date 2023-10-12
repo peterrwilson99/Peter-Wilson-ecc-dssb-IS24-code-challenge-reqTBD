@@ -66,10 +66,10 @@ interface Product {
 }
 
 function ProductTable() {
-    const [productsRaw, setProductsRaw] = useState<Product[]>([]);
-    const [products, setProducts] = useState<Product[]>([]);
-    const [search, setSearch] = useState<string>('');
-    const [searchCategory, setSearchCategory] = useState<string>(Object.keys(searchCategoriesMap)[0]);
+    const [productsRaw, setProductsRaw] = useState<Product[]>([]); // raw data from API
+    const [products, setProducts] = useState<Product[]>([]); // filtered data
+    const [search, setSearch] = useState<string>(''); // search string
+    const [searchCategory, setSearchCategory] = useState<string>('productName'); // search category
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<boolean>(false);
     const [page, setPage] = React.useState(0);
@@ -89,6 +89,7 @@ function ProductTable() {
         setPage(0);
     };
 
+    // GET request to get all products
     const getProducts = async () => {
         setLoading(true);
         try{
@@ -126,11 +127,13 @@ function ProductTable() {
         getProducts();
     }, []);
     
+    // Update products when search changes
     useEffect(() => {
         setPage(0);
         handleSearch();
     }, [search, searchCategory]);
     
+    // Update products when productsRaw changes
     useEffect(() => {
         setLoading(true);
         setProducts(productsRaw);
