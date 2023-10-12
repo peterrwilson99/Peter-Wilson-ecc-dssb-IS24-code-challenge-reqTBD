@@ -2,7 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
     const {productId} = req.query;
-    const url = 'http://localhost:3000/api/product/'.concat(productId as string);
+    const isRunningInDocker = process.env.RUNNING_IN_DOCKER === 'true';
+    const baseURL = isRunningInDocker ? 'http://server:3000' : 'http://localhost:3000';
+    const url = `${baseURL}/api/product/${productId as string}`;
+
     if(req.method === "GET"){
         return await getProduct(req, res, url);
     }else if(req.method === "PUT"){
@@ -11,6 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(405).json({message: "Method not allowed"});
 }
+
 
 async function getProduct(req: NextApiRequest, res: NextApiResponse, url: string){
     try{
