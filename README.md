@@ -3,7 +3,7 @@
 
 ## Project Summary
 
-This repository houses the BC WebApp Tracker, a full-stack application comprised of a frontend, backend, and data fetching scripts. The frontend is a Next.js application written in TypeScript and styled with Material-UI components. The backend is an Express.js server, also written in TypeScript, which utilizes in-memory storage for products. Additional data fetching scripts were used to populate the application with dummy data from the bcgov GitHub account, which can be found in the `/data` folder.
+This repository houses the BC WebApp Tracker, a full-stack application comprised of a frontend, backend, and data fetching scripts. The frontend is a Next.js application written in TypeScript and styled with Material-UI components. The backend is an Express.js server, also written in TypeScript, which utilizes in-memory storage for products, with a test suite written using jest. Additional data fetching scripts were used to populate the application with dummy data from the bcgov GitHub account, which can be found in the `/data` folder.
 
 ## Documentation
 
