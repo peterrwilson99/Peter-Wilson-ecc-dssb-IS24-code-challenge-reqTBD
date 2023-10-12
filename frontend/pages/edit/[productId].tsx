@@ -11,7 +11,7 @@ function EditProduct() {
 
     const getProduct = async () => {
         try{
-            const response = await fetch('/api/'.concat(String(productId)));
+            const response = await fetch('/api/product/'.concat(String(productId)));
             const data = await response.json();
             if(response.status === 200){
                 setProduct(data);

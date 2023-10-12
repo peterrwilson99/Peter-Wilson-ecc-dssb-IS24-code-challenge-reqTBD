@@ -1,48 +1,52 @@
-# Material UI - Next.js Pages Router example in TypeScript
+# ECC -DSSB Code Challenge Frontend
 
-## How to use
+This is a Next.js application that utilizes Material UI components.
 
-Download the example [or clone the repo](https://github.com/mui/material-ui):
+## Installation and Running
 
-<!-- #default-branch-switch -->
+To install the necessary packages, run the following command in your terminal:
 
 ```bash
-curl https://codeload.github.com/mui/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/material-ui-nextjs-pages-router-ts
-cd material-ui-nextjs-pages-router-ts
+npm i
 ```
 
-Install it and run:
+To run the application in development mode, execute:
 
 ```bash
-npm install
 npm run dev
 ```
 
-or:
+The app will run on http://localhost:3001
 
-<!-- #default-branch-switch -->
+*Note this is assuming you are running the server on port 3000 and have Node.js 18+*
 
-[![Edit on StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/mui/material-ui/tree/master/examples/material-ui-nextjs-pages-router-ts)
 
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/mui/material-ui/tree/master/examples/material-ui-nextjs-pages-router-ts)
+## Repository layout
 
-## The idea behind the example
-
-**Note:** This example is set up to use the Next.js Pages Router.
-As of Next.js 13.4, the newer App Router pattern is stable.
-We recommend starting new projects with the [Material UI with Next.js (App Router) example](https://github.com/mui/material-ui/tree/master/examples/material-ui-nextjs-ts) unless you need (or prefer) the Pages Router.
-
-The project uses [Next.js](https://github.com/vercel/next.js), which is a framework for server-rendered React apps.
-It includes `@mui/material` and its peer dependencies, including [Emotion](https://emotion.sh/docs/introduction), the default style engine in Material UI v5. If you prefer, you can [use styled-components instead](https://mui.com/material-ui/guides/interoperability/#styled-components).
-
-## The link component
-
-The [example folder](https://github.com/mui/material-ui/tree/HEAD/examples/material-ui-nextjs-pages-router-ts) provides an adapter for the use of [Next.js's Link component](https://nextjs.org/docs/pages/api-reference/components/link) with Material UI.
-More information [in the documentation](https://mui.com/material-ui/guides/routing/#next-js-pages-router).
-
-## What's next?
-
-<!-- #default-branch-switch -->
-
-You now have a working example project.
-You can head back to the documentation and continue by browsing the [templates](https://mui.com/material-ui/getting-started/templates/) section.
+#### Pages
+- `/pages`
+    - `add.tsx`: Page for adding new products
+    - `index.tsx`: Home page
+    - `_app.tsx`: Application wrapper
+    - `_document.tsx`: Document wrapper
+    - `/api`
+        - `index.ts`: Product API endpoint
+        - `[productId].ts`: Individual product API endpoint
+    - `/edit`
+        - `[productId].tsx`: Edit product page
+#### Source Code
+- `/src`
+    - `/components`
+        - `EditProductForm.tsx`: Form component for editing a product
+        - `MultipleTextField.tsx`: Multiple text field component
+        - `Navbar.tsx`: Navigation bar component
+        - `NewProductForm.tsx`: Form component for creating a new product
+        - `ProductTable.tsx`: Table component for displaying products
+    - `createEmotionCache.ts`: Emotion cache creation utility
+    - `theme.ts`: Theming utility
+#### Config files
+- `.eslintrc.json`
+- `next.config.js`
+- `package-lock.json`
+- `package.json`
+- `tsconfig.json`

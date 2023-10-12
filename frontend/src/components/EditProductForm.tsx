@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert, Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, Snackbar, TextField, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
@@ -30,6 +30,7 @@ function EditProductForm(props: EditProductFormProps) {
     const [startDate, setStartDate] = useState(dayjs(product.startDate) ?? dayjs());
     const [methodology, setMethodology] = useState(product.methodology ?? "Agile");
     const [location, setLocation] = useState(product.location ?? "");
+    const [changesMade, setChangesMade] = useState(false)
 
     const putProduct = async () => {
         try{
@@ -42,7 +43,7 @@ function EditProductForm(props: EditProductFormProps) {
                 methodology: methodology,
                 location: location
             };
-            const response = await fetch("/api/".concat(String(product.productId)), {
+            const response = await fetch("/api/product/".concat(String(product.productId)), {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(body)
@@ -68,6 +69,49 @@ function EditProductForm(props: EditProductFormProps) {
         e.preventDefault();
         putProduct();
     }
+
+    const checkChangesMade = () => {
+        if(productName !== product.productName){
+            setChangesMade(true);
+            console.log("productName changed")
+            return;
+        }
+        if(scrumMaster !== product.scrumMasterName){
+            setChangesMade(true);
+            console.log("scrumMaster changed")
+            return;
+        }
+        if(productOwner !== product.productOwnerName){
+            setChangesMade(true);
+            console.log("productOwner changed")
+            return;
+        }
+        if(developers !== product.Developers){
+            setChangesMade(true);
+            console.log("developers changed")
+            return;
+        }
+        if(startDate.format("YYYY/MM/DD") !== dayjs(product.startDate).format("YYYY/MM/DD")){
+            setChangesMade(true);
+            console.log("startDate changed")
+            return;
+        }
+        if(methodology !== product.methodology){
+            setChangesMade(true);
+            console.log("methodology changed")
+            return;
+        }
+        if(location !== product.location){
+            setChangesMade(true);
+            console.log("location changed")
+            return;
+        }
+        setChangesMade(false);
+    }
+
+    useEffect(() => {
+        checkChangesMade();
+    }, [productName, productOwner, developers, scrumMaster, startDate, methodology, location])
 
     return (
         <form style={{width: '100%'}} onSubmit={handleSubmit}>
@@ -168,7 +212,8 @@ function EditProductForm(props: EditProductFormProps) {
                 sx={{marginY: "1rem"}}
                 fullWidth
             />
-            <Button variant="outlined" type="submit" sx={{margin: "1rem"}}>Save Changes</Button>
+            <Button variant="contained" color="secondary" type="submit" disabled={!changesMade} sx={{margin: "1rem"}}>Save Changes</Button>
+            <Button variant="outlined" color="primary" onClick={() => window.location.href = "/"} sx={{margin: "1rem"}}>Cancel</Button>
             {
                 error ?
                     <Snackbar
