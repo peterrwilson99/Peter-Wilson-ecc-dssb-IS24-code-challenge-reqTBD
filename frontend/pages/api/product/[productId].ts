@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
     const {productId} = req.query;
-    const url = 'http://localhost:3000/api/'.concat(productId as string);
+    const url = 'http://localhost:3000/api/product/'.concat(productId as string);
     if(req.method === "GET"){
         return await getProduct(req, res, url);
     }else if(req.method === "PUT"){

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
-    const url = 'http://localhost:3000/api';
+    const url = 'http://localhost:3000/api/product';
     if(req.method === "GET"){
         return await getProduct(req, res, url);
     }else if(req.method === "POST"){

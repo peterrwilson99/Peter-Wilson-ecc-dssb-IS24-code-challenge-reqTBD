@@ -12,13 +12,14 @@ products.sort((a,b) => {
 });
 
 export const app = express();
+
 app.use(json());
 
-app.get('/', (req: Request, res: Response) => {
-  res.status(200).json({ message: 'Running' });
+app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'OK' });
 });
 
-app.use('/api',ProductRouter);
+app.use('/api/product',ProductRouter);
 app.use(NotFoundHandler);
 app.use(errorHandler);
 

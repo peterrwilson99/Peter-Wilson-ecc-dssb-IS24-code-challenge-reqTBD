@@ -24,7 +24,7 @@ function NewProductForm() {
                 startDate: startDate.format("YYYY/MM/DD"),
                 methodology: methodology
             };
-            const response = await fetch("/api", {
+            const response = await fetch("/api/product", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(body)
@@ -138,7 +138,8 @@ function NewProductForm() {
                     <MenuItem value="Waterfall">Waterfall</MenuItem>
                 </Select>
             </FormControl>
-            <Button variant="outlined" type="submit" sx={{margin: "1rem"}}>Save Product</Button>
+            <Button variant="contained" color="secondary" type="submit" sx={{margin: "1rem"}}>Save Product</Button>
+            <Button variant="outlined" color="primary" sx={{margin: "1rem"}} onClick={() => window.location.href = "/"}>Cancel</Button>
             {
                 error ?
                     <Snackbar

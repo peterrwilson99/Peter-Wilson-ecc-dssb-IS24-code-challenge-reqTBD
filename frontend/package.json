@@ -1,13 +1,12 @@
 {
-  "name": "material-ui-nextjs-pages-router-ts",
-  "version": "5.0.0",
+  "name": "ecc-code-challenge-frontend",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+    "start": "next start -p 3001",
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/cache": "latest",

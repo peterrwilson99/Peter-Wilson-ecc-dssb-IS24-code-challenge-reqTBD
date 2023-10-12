@@ -92,7 +92,7 @@ function ProductTable() {
     const getProducts = async () => {
         setLoading(true);
         try{
-            const response = await fetch('/api');
+            const response = await fetch('/api/product');
             const data = await response.json();
             if(response.status === 200){
                 setProductsRaw(data);
@@ -253,11 +253,19 @@ function ProductTable() {
                                             {product.methodology}
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Tooltip title={product.location && product.location !== '' ? "View GitHub": "No Repository Found"}>
-                                                <IconButton href={product.location ?? "#"} disabled={!product.location || product.location === ''} target="_blank" size="large" sx={{textAlign: 'right', p: 0,}}>
-                                                    <GitHubIcon />
-                                                </IconButton>
-                                            </Tooltip>
+                                            {
+                                                !product.location || product.location === '' ?
+                                                    <IconButton href={product.location ?? "#"} disabled={true} target="_blank" size="large" sx={{textAlign: 'right', p: 0,}}>
+                                                        <GitHubIcon />
+                                                    </IconButton>
+                                                    :
+                                                    <Tooltip title={product.location && product.location !== '' ? "View GitHub": "No Repository Found"}>
+                                                        <IconButton href={product.location ?? "#"} disabled={false} target="_blank" size="large" sx={{textAlign: 'right', p: 0,}}>
+                                                            <GitHubIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+
+                                            }
                                         </TableCell>
                                         <TableCell align="right">
                                             <Button href={"/edit/".concat(String(product.productId))} variant="outlined" color="secondary" endIcon={<EditIcon />}>
