@@ -15,12 +15,12 @@ function Navbar() {
           <Box>
             <ButtonBase href="/" sx={{marginX: '1rem'}}>
               <Typography variant="body2" color="inherit" component="div" sx={{fontSize: '1.1rem'}}>
-                Page 1
+                View Products
               </Typography>
             </ButtonBase>
-            <ButtonBase href="/" sx={{marginX: '1rem'}}>
+            <ButtonBase href="/add" sx={{marginX: '1rem'}}>
               <Typography variant="body2" color="inherit" component="div" sx={{fontSize: '1.1rem'}}>
-                Page 2
+                Add Product
               </Typography>
             </ButtonBase>
           </Box>

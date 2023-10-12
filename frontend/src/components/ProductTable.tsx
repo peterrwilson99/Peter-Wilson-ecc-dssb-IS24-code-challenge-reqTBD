@@ -66,10 +66,10 @@ interface Product {
 }
 
 function ProductTable() {
-    const [productsRaw, setProductsRaw] = useState<Product[]>([]);
-    const [products, setProducts] = useState<Product[]>([]);
-    const [search, setSearch] = useState<string>('');
-    const [searchCategory, setSearchCategory] = useState<string>(Object.keys(searchCategoriesMap)[0]);
+    const [productsRaw, setProductsRaw] = useState<Product[]>([]); // raw data from API
+    const [products, setProducts] = useState<Product[]>([]); // filtered data
+    const [search, setSearch] = useState<string>(''); // search string
+    const [searchCategory, setSearchCategory] = useState<string>('productName'); // search category
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<boolean>(false);
     const [page, setPage] = React.useState(0);
@@ -89,6 +89,7 @@ function ProductTable() {
         setPage(0);
     };
 
+    // GET request to get all products
     const getProducts = async () => {
         setLoading(true);
         try{
@@ -126,11 +127,13 @@ function ProductTable() {
         getProducts();
     }, []);
     
+    // Update products when search changes
     useEffect(() => {
         setPage(0);
         handleSearch();
     }, [search, searchCategory]);
     
+    // Update products when productsRaw changes
     useEffect(() => {
         setLoading(true);
         setProducts(productsRaw);
@@ -151,7 +154,7 @@ function ProductTable() {
                     </Button>
                 </Paper>
                 :
-                <Paper elevation={7} sx={{ width: "100%", borderRadius: 5, paddingY: '2rem', paddingX: '10px' }}>
+                <Paper elevation={7} sx={{ width: "100%", borderRadius: 5, paddingY: '2rem', paddingX: '15px' }}>
                     <Box sx={{display: 'flex', flexDirection: "row", justifyContent: 'space-between', width: '100%', paddingX: '1.5rem', height: '100%'}}>
                         <Box sx={{display: 'flex', flexDirection: "column", justifyContent: 'space-between', width: '100%', paddingX: '1.5rem', minHeight: 120}}>
                             <Typography variant="h5" component="h5" gutterBottom >
@@ -210,9 +213,9 @@ function ProductTable() {
                                 <TableRow>
                                     {columns.map((header, index) => (
                                         index === 0 ?
-                                            <TableCell key={index}>{header}</TableCell>
+                                            <TableCell key={index} sx={{fontSize: '1.1rem'}}>{header}</TableCell>
                                             :
-                                            <TableCell key={index} align="right">{header}</TableCell>
+                                            <TableCell key={index} align="right" sx={{fontSize: '1.1rem'}}>{header}</TableCell>
                                     ))}
                                 </TableRow>
                             </TableHead>

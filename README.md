@@ -5,6 +5,34 @@
 
 This repository houses the BC WebApp Tracker, a full-stack application comprised of a frontend, backend, and data fetching scripts. The frontend is a Next.js application written in TypeScript and styled with Material-UI components. The backend is an Express.js server, also written in TypeScript, which utilizes in-memory storage for products. Additional data fetching scripts were used to populate the application with dummy data from the bcgov GitHub account, which can be found in the `/data` folder.
 
+## Requirements
+
+- Node.js v18 and npm
+
+### Frontend
+
+- Next.js
+- TypeScript
+- Material-UI
+
+### Backend
+
+- Express.js
+- TypeScript
+- Faker.js for dummy data
+
+## Repository Structure
+
+- `/data`
+    - Scripts for fetching dummy data from the bcgov GitHub account
+- `/frontend`
+    - Next.js application built with TypeScript and Material-UI
+- `/server`
+    - Express.js API built with TypeScript, utilizes in-memory storage for products
+- `/.github`
+    - GitHub Actions for Continuous Integration
+
+
 ## Run Production
 
 1. Install server dependencies
@@ -62,33 +90,9 @@ npm run dev
 The server will be running on http://localhost:3000 and the frontend will be running on http://localhost:3001
 
 
-## Requirements
+## Additional Information
 
-- Node.js v18 and npm
-
-### Frontend
-
-- Next.js
-- TypeScript
-- Material-UI
-
-### Backend
-
-- Express.js
-- TypeScript
-- Faker.js for dummy data
-
-## Repository Structure
-
-- `/data`
-    - Scripts for fetching dummy data from the bcgov GitHub account
-- `/frontend`
-    - Next.js application built with TypeScript and Material-UI
-- `/server`
-    - Express.js API built with TypeScript, utilizes in-memory storage for products
-- `/.github`
-    - GitHub Actions for Continuous Integration
-
+For more detailed information, please refer to the README files within each respective folder (`/data`, `/frontend`, `/server`).
 
 ## User Stories
 
@@ -185,6 +189,3 @@ I can search for a specific developer
 
 
 
-## Additional Information
-
-For more detailed information, please refer to the README files within each respective folder (`/data`, `/frontend`, `/server`).

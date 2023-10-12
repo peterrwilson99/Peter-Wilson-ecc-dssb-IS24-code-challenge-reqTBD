@@ -32,6 +32,7 @@ function EditProductForm(props: EditProductFormProps) {
     const [location, setLocation] = useState(product.location ?? "");
     const [changesMade, setChangesMade] = useState(false)
 
+    // PUT request to update product
     const putProduct = async () => {
         try{
             const body = {
@@ -70,6 +71,7 @@ function EditProductForm(props: EditProductFormProps) {
         putProduct();
     }
 
+    // check to see if any changes have been made to the form
     const checkChangesMade = () => {
         if(productName !== product.productName){
             setChangesMade(true);
@@ -109,6 +111,7 @@ function EditProductForm(props: EditProductFormProps) {
         setChangesMade(false);
     }
 
+    // check for changes made to the form
     useEffect(() => {
         checkChangesMade();
     }, [productName, productOwner, developers, scrumMaster, startDate, methodology, location])
@@ -212,8 +215,10 @@ function EditProductForm(props: EditProductFormProps) {
                 sx={{marginY: "1rem"}}
                 fullWidth
             />
-            <Button variant="contained" color="secondary" type="submit" disabled={!changesMade} sx={{margin: "1rem"}}>Save Changes</Button>
-            <Button variant="outlined" color="primary" onClick={() => window.location.href = "/"} sx={{margin: "1rem"}}>Cancel</Button>
+            <Box sx={{textAlign: 'right'}}>
+                <Button variant="outlined" color="primary" onClick={() => window.location.href = "/"} sx={{margin: "1rem",  marginRight: 0}}>Cancel</Button>
+                <Button variant="contained" color="secondary" type="submit" disabled={!changesMade} sx={{margin: "1rem", marginRight: 0}}>Save Changes</Button>
+            </Box>
             {
                 error ?
                     <Snackbar
@@ -223,7 +228,7 @@ function EditProductForm(props: EditProductFormProps) {
                         title="Error Editing Product"
                     >
                         <Alert severity="error" sx={{ width: '100%' }}>
-                            Error saving product. Please try again later
+                            Error saving product. Please try again.
                         </Alert>
                     </Snackbar>
                     :

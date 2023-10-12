@@ -3,7 +3,9 @@ import express, { json, Request, Response } from 'express';
 import { errorHandler } from './middleware/error';
 import { NotFoundHandler } from './middleware/notFound';
 import ProductRouter from './routes/product'
+import HealthRouter from './routes/health'
 import { createProductArray } from './data/dummy';
+import { setupSwagger } from './utils/swagger';
 
 export const products = createProductArray(30);
 
@@ -15,13 +17,15 @@ export const app = express();
 
 app.use(json());
 
-app.get('/health', (req: Request, res: Response) => {
-  res.status(200).json({ status: 'OK' });
-});
 
+app.use('/health', HealthRouter)
 app.use('/api/product',ProductRouter);
+setupSwagger(app);
+
+
 app.use(NotFoundHandler);
 app.use(errorHandler);
+
 
 const port = 3000;
 app.listen(port, () => {

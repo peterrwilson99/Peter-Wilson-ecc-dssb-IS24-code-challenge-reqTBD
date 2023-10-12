@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import React, { use, useEffect, useState } from 'react'
 import EditProductForm, { Product } from '../../src/components/EditProductForm';
 import { Box, CircularProgress, Container, Typography } from '@mui/material';
+import FourOhFour from '../../src/components/FourOhFour';
 
 function EditProduct() {
     const [product, setProduct] = useState<Product | undefined>(undefined);
@@ -33,29 +34,29 @@ function EditProduct() {
 
     return (
         <Container maxWidth="sm">
-            <Box
-                sx={{
-                my: 4,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                }}
-            >
-                <Typography variant="h4" component="h1" gutterBottom>
-                    Edit Product
-                </Typography>
-                {
-                    product ?
-                        <EditProductForm product={product} />
+            {
+                product ?
+                        <Box
+                            sx={{
+                            my: 4,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            }}
+                        >
+                            <Typography variant="h4" component="h1" gutterBottom>
+                                Edit Product
+                            </Typography>
+                            <EditProductForm product={product} />
+                        </Box>  
+                    :
+                    error ?
+                        <FourOhFour />
                         :
-                        error ?
-                            <div>Error</div>
-                            :
-                            <CircularProgress />
+                        <CircularProgress />
 
-                }
-            </Box>
+            }
         </Container>
     )
 }

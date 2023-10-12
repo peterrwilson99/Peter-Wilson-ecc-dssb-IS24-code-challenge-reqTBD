@@ -10,9 +10,13 @@
     "watch": "tsc -w"
   },
   "dependencies": {
+    "@types/swagger-jsdoc": "^6.0.1",
+    "@types/swagger-ui-express": "^4.1.4",
     "express": "^4.17.1",
     "express-jwt": "^8.4.0",
-    "jwks-rsa": "^3.0.1"
+    "jwks-rsa": "^3.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.1.0",
