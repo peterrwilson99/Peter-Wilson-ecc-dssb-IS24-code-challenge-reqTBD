@@ -5,6 +5,10 @@
 
 This repository houses the BC WebApp Tracker, a full-stack application comprised of a frontend, backend, and data fetching scripts. The frontend is a Next.js application written in TypeScript and styled with Material-UI components. The backend is an Express.js server, also written in TypeScript, which utilizes in-memory storage for products. Additional data fetching scripts were used to populate the application with dummy data from the bcgov GitHub account, which can be found in the `/data` folder.
 
+## Documentation
+
+Documentation for the server API can be found at http://localhost:3000/api/api-docs
+
 ## Requirements
 
 - Node.js v18 and npm
@@ -35,6 +39,25 @@ This repository houses the BC WebApp Tracker, a full-stack application comprised
 
 ## Run Production
 
+### Using Docker
+
+If first time running application, run
+```bash
+docker-compose up --build -d
+# or without the -d to run in foreground
+docker-compose up --build
+```
+
+otherwise run
+
+```bash
+docker-compose up -d
+# or without the -d to run in foreground
+docker-compose up
+```
+
+
+### Using Node
 1. Install server dependencies
 ```bash
 cd server
