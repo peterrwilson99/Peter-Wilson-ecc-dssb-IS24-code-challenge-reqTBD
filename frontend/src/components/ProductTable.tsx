@@ -151,7 +151,7 @@ function ProductTable() {
                     </Button>
                 </Paper>
                 :
-                <Paper elevation={7} sx={{ width: "100%", borderRadius: 5, paddingY: '2rem', paddingX: '10px' }}>
+                <Paper elevation={7} sx={{ width: "100%", borderRadius: 5, paddingY: '2rem', paddingX: '15px' }}>
                     <Box sx={{display: 'flex', flexDirection: "row", justifyContent: 'space-between', width: '100%', paddingX: '1.5rem', height: '100%'}}>
                         <Box sx={{display: 'flex', flexDirection: "column", justifyContent: 'space-between', width: '100%', paddingX: '1.5rem', minHeight: 120}}>
                             <Typography variant="h5" component="h5" gutterBottom >
@@ -210,9 +210,9 @@ function ProductTable() {
                                 <TableRow>
                                     {columns.map((header, index) => (
                                         index === 0 ?
-                                            <TableCell key={index}>{header}</TableCell>
+                                            <TableCell key={index} sx={{fontSize: '1.1rem'}}>{header}</TableCell>
                                             :
-                                            <TableCell key={index} align="right">{header}</TableCell>
+                                            <TableCell key={index} align="right" sx={{fontSize: '1.1rem'}}>{header}</TableCell>
                                     ))}
                                 </TableRow>
                             </TableHead>

@@ -138,8 +138,10 @@ function NewProductForm() {
                     <MenuItem value="Waterfall">Waterfall</MenuItem>
                 </Select>
             </FormControl>
-            <Button variant="contained" color="secondary" type="submit" sx={{margin: "1rem"}}>Save Product</Button>
-            <Button variant="outlined" color="primary" sx={{margin: "1rem"}} onClick={() => window.location.href = "/"}>Cancel</Button>
+            <Box sx={{textAlign: 'right'}}>
+                <Button variant="outlined" color="primary" sx={{margin: "1rem", marginRight: 0 }} onClick={() => window.location.href = "/"}>Cancel</Button>
+                <Button variant="contained" color="secondary" type="submit" sx={{margin: "1rem", marginRight: 0 }}>Save Product</Button>
+            </Box>
             {
                 error ?
                     <Snackbar
